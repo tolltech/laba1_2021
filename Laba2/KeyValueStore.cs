@@ -2,10 +2,10 @@
 {
     public class KeyValueStore : HttpClientBase, IKeyValueStore
     {
-        private const string hostUrl = "https://tolltech.ru/study/";
+        private const string defaultHostUrl = "https://tolltech.ru/study/";
 
 
-        public KeyValueStore() : base(hostUrl)
+        public KeyValueStore(string hostUrl = defaultHostUrl) : base(hostUrl)
         {
         }
 

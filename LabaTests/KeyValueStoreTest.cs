@@ -12,7 +12,8 @@ namespace LabaTests
         [SetUp]
         public void Setup()
         {
-            keyValueStore = new KeyValueStore();
+            keyValueStore = new KeyValueStore("http://localhost:5000/study/");
+            //keyValueStore = new KeyValueStore();
         }
 
         [Test]
@@ -63,6 +64,18 @@ namespace LabaTests
         }
 
         [Test]
+        public void TestUpdateNonExistent()
+        {
+            var randomKey = Guid.NewGuid().ToString();
+            
+            var exception = Assert.Throws<Exception>(() => keyValueStore.Update(randomKey, Guid.NewGuid().ToString()));
+            exception.Message.Should()
+                .BeEquivalentTo(
+                    $"Плохой http status code BadRequest. Сообщение Key {randomKey} is not presented in store.");
+
+        }
+
+        [Test]
         public void TestCreateExistedKey()
         {
             var randomKey = Guid.NewGuid().ToString();
@@ -84,6 +97,5 @@ namespace LabaTests
                 .BeEquivalentTo(
                     $"Плохой http status code BadRequest. Сообщение Key {keyValue.Key} is already presented in store.");
         }
-
     }
 }
